@@ -12,8 +12,10 @@ module.exports = merge(common, {
 	},
 	devtool: 'inline-source-map',
 	devServer: {
-		// 开发服务器
 		contentBase: '../dist',
+		port: 8080,	// 默认8080，可不写
+		open: false,
+		hot: true	// 热更新，无需刷新
 	},
 	module: {},
 });

@@ -15,6 +15,10 @@
 	├── package.json
 	├── README.md
 	```
+	下载必要插件
+	```
+	npm install webpack webpack-cli webpack-merge --save-dev
+	```
 2. index.html文件代码修改
 	```html
 	<!DOCTYPE html>
@@ -44,7 +48,21 @@
 
 	```
 	webpack.base.js 抽离webpack公有配置
-	```
+	```js
+	// 存放 dev 和 prod 通用配置
+	const webpack = require('webpack');
+	const path = require('path');
+	const VueLoaderPlugin = require('vue-loader/lib/plugin');
+	const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+	module.exports = {
+		entry: './src/main.js', // 入口
+		module: {
+			rules: [],
+		},
+		plugins: [], // 插件
+	};
+
 	```
 	webpack.dev.js文件内容
 	```js
@@ -79,4 +97,58 @@
 		plugins: [],
 	});
 	```
-4. 
+4. package.json新增打包命令
+	```json
+	"scripts": {
+		"test": "npm run test",
+		"start": "webpack-dev-server --hot --open --config build/webpack.dev.js",
+		"build": "webpack --config build/webpack.prod.js"
+	},
+	```
+	到这一步执行命令的话应该就可以跑一个初始的项目了，但这只是最基础的模板
+
+### 2. 搭建基础架构
+1. 每次构建前清空dist目录，添加`clean-webpack-plugin`插件
+	```
+	npm install clean-webpack-plugin --save-dev
+	```
+	修改webpack.config.js
+	```js
+	plugins: [
+		// 自动清空dist目录
+		new CleanWebpackPlugin(),
+	]
+	```
+2. 从html模板自动生成最终html `html-webpack-plugin`
+	```
+	npm install html-webpack-plugin --save-dev
+	```
+	修改webpack.config.js
+	```js
+	plugins: [
+		new HtmlWebpackPlugin({    
+			template: './index.html',    
+			chunks: ['main']
+		})
+	]
+	```
+3. 开发环境添加热监测服务器 `webpack-dev-server`
+	```
+	npm install webpack-dev-server --save-dev
+	```
+	修改package.json:
+	```json
+	"scripts": {
+		"build": "webpack --mode production",
+		"dev": "webpack --mode development",
+		"serve": "webpack-dev-server --open --mode development"
+	},
+	```
+	修改webpack.dev.js
+	```js
+	devServer: {
+		contentBase: './dist',
+		port: 8080,	// 默认8080，可不写
+		hot: true	// 热更新，无需刷新
+	},
+	```
