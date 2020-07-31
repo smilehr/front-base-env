@@ -4,7 +4,8 @@
 	"description": "自己的前端环境脚手架",
 	"private": true,
 	"scripts": {
-		"build": "webpack --config build/webpack.common.js"
+		"build": "webpack --config build/webpack.common.js",
+		"serve": "webpack-dev-server --inline --progress --config build/webpack.dev.js"
 	},
 	"repository": {
 		"type": "git",

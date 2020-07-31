@@ -87,7 +87,7 @@
 	```
 	webpack.dev.js文件内容
 	```js
-	const merge = require('webpack-merge');
+	const { merge } = require('webpack-merge');
 	const common = require('./webpack.common.js');
 
 	module.exports = merge(common, {
@@ -97,7 +97,7 @@
 	```
 	webpack.prod.js文件内容
 	```js
-	const merge = require('webpack-merge');
+	const { merge } = require('webpack-merge');
 	const common = require('./webpack.common.js');
 
 	module.exports = merge(common, {
@@ -144,19 +144,25 @@
 	```
 	npm install webpack-dev-server --save-dev
 	```
-	修改package.json:
+	package.json新增命令:
 	```json
 	"scripts": {
-		"build": "webpack --mode production",
-		"dev": "webpack --mode development",
-		"serve": "webpack-dev-server --open --mode development"
+		"serve": "webpack-dev-server --inline --progress --config build/webpack.dev.js"
 	},
 	```
 	修改webpack.dev.js
 	```js
 	devServer: {
-		contentBase: './dist',
-		port: 8080,	// 默认8080，可不写
-		hot: true	// 热更新，无需刷新
+		compress: true,
+		host: 'localhost',
+		port: 8080,
+		open: false,
+		overlay: true,
+		publicPath: '/',
+		quiet: true, // necessary for FriendlyErrorsPlugin
+		watchOptions: {
+			poll: false,
+		},
+		after(app) {},
 	},
 	```

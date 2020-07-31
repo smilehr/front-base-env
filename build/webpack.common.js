@@ -30,7 +30,7 @@ module.exports = {
 		new CleanWebpackPlugin(/*{ cleanAfterEveryBuildPatterns: ['dist'] }*/),
 		// 生成html文件
 		new HtmlWebpackPlugin({
-			template: 'index.html',
+			template: path.join(__dirname, '..', 'index.html'),
 			chunks: ['app'],
 		}),
 	], // 插件
