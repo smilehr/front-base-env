@@ -49,61 +49,15 @@
 	```
 	webpack.base.js 抽离webpack公有配置
 	```js
-	// 存放 dev 和 prod 通用配置
-	const webpack = require('webpack');
-	const path = require('path');
-	const VueLoaderPlugin = require('vue-loader/lib/plugin');
-	const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-	module.exports = {
-		entry: './src/main.js', // 入口
-		module: {
-			rules: [],
-		},
-		plugins: [], // 插件
-	};
-
 	```
 	webpack.dev.js文件内容
 	```js
-	const merge = require('webpack-merge');
-	const common = require('./webpack.base.js');
-	const path = require('path');
-
-	module.exports = merge(common, {
-		mode: 'development',
-		// 输出
-		output: {
-			filename: 'js/[name].[hash].js', // 每次保存 hash 都变化
-			path: path.resolve(__dirname, '../dist'),
-		},
-		module: {},
-	});
 	```
 	webpack.prod.js文件内容
 	```js
-	const path = require('path');
-	// 合并配置文件
-	const merge = require('webpack-merge');
-	const common = require('./webpack.base.js');
-
-	module.exports = merge(common, {
-		mode: 'production',
-		output: {
-			filename: 'js/[name].[contenthash].js', //contenthash 若文件内容无变化，则contenthash 名称不变
-			path: path.resolve(__dirname, '../dist'),
-		},
-		module: {},
-		plugins: [],
-	});
 	```
 4. package.json新增打包命令
 	```json
-	"scripts": {
-		"test": "npm run test",
-		"start": "webpack-dev-server --hot --open --config build/webpack.dev.js",
-		"build": "webpack --config build/webpack.prod.js"
-	},
 	```
 	到这一步执行命令的话应该就可以跑一个初始的项目了，但这只是最基础的模板
 

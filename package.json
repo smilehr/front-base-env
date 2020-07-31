@@ -3,11 +3,7 @@
 	"version": "1.0.0",
 	"description": "自己的前端环境脚手架",
 	"main": "index.js",
-	"scripts": {
-		"build": "webpack --mode production",
-		"dev": "webpack --mode development",
-		"serve": "webpack-dev-server --open --mode development"
-	},
+	"scripts": {},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/smilehr/front-base-env.git"
