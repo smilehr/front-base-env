@@ -10,6 +10,7 @@
 	├── build
 	├── dist
 	├── src
+	│   ├── main.js
 	├── .gitignore
 	├── index.html
 	├── package.json
@@ -34,7 +35,16 @@
 		</body>
 	</html>
 	```
-2. 抽离开发环境、生产环境，生成不同的配置文件，扩展后文件目录如下
+3. main.js文件修改
+	```js
+	function component() {
+		var element = document.createElement('div');
+		element.innerHTML = 'hello my webpack environment';
+		return element;
+	}
+	document.body.appendChild(component());
+	```
+4. 抽离开发环境、生产环境，生成不同的配置文件，扩展后文件目录如下
 	```
 	├── build
 	│   ├── webpack.base.js
@@ -47,46 +57,90 @@
 	├── README.md
 
 	```
-	webpack.base.js 抽离webpack公有配置
+	webpack.common.js 抽离webpack公有配置
 	```js
+	const webpack = require('webpack');
+	const path = require('path');
+
+	function srcResolve(file) {
+		var _path = path.join(__dirname, '..', 'src', file);
+		return _path;
+	}
+
+	function distResolve(file) {
+		return path.join(__dirname, '..', 'dist', file);
+	}
+
+	module.exports = {
+		entry: {
+			app: srcResolve('main.js'),
+		}, // 入口
+		output: {
+			path: distResolve(''),
+			filename: 'vendorjs/[name].bundle.js',
+		},
+		module: {
+			rules: [],
+		},
+		plugins: [], // 插件
+	};
 	```
 	webpack.dev.js文件内容
 	```js
+	const merge = require('webpack-merge');
+	const common = require('./webpack.common.js');
+
+	module.exports = merge(common, {
+		mode: 'development',
+		module: {},
+	});
 	```
 	webpack.prod.js文件内容
 	```js
-	```
-4. package.json新增打包命令
-	```json
-	```
-	到这一步执行命令的话应该就可以跑一个初始的项目了，但这只是最基础的模板
+	const merge = require('webpack-merge');
+	const common = require('./webpack.common.js');
 
-### 2. 搭建基础架构
-1. 每次构建前清空dist目录，添加`clean-webpack-plugin`插件
+	module.exports = merge(common, {
+		mode: 'production',
+		module: {},
+		plugins: [],
+	});
+	```
+5. package.json新增打包命令
+	```json
+	"scripts": {
+		"build": "webpack --config build/webpack.common.js"
+	},
+	```
+6. 每次构建前清空dist目录，添加`clean-webpack-plugin`插件
 	```
 	npm install clean-webpack-plugin --save-dev
 	```
-	修改webpack.config.js
+	修改webpack.common.js
 	```js
+	const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 	plugins: [
 		// 自动清空dist目录
 		new CleanWebpackPlugin(),
 	]
 	```
-2. 从html模板自动生成最终html `html-webpack-plugin`
+7. 从html模板自动生成最终html `html-webpack-plugin`
 	```
 	npm install html-webpack-plugin --save-dev
 	```
-	修改webpack.config.js
+	修改webpack.common.js
 	```js
+	const HtmlWebpackPlugin = require('html-webpack-plugin');
 	plugins: [
 		new HtmlWebpackPlugin({    
-			template: './index.html',    
-			chunks: ['main']
+			template: 'index.html',    
+			chunks: ['app']
 		})
 	]
 	```
-3. 开发环境添加热监测服务器 `webpack-dev-server`
+	到这一步执行命令的话应该就可以跑一个初始的项目
+### 2. 配置完善
+1. 开发环境添加热监测服务器 `webpack-dev-server`
 	```
 	npm install webpack-dev-server --save-dev
 	```
