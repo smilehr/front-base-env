@@ -2,8 +2,10 @@
 	"name": "front-base-env",
 	"version": "1.0.0",
 	"description": "自己的前端环境脚手架",
-	"main": "index.js",
-	"scripts": {},
+	"private": true,
+	"scripts": {
+		"build": "webpack --config build/webpack.common.js"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/smilehr/front-base-env.git"
@@ -19,6 +21,7 @@
 	"homepage": "https://github.com/smilehr/front-base-env#readme",
 	"devDependencies": {
 		"clean-webpack-plugin": "^3.0.0",
+		"html-webpack-plugin": "^4.3.0",
 		"webpack": "^4.44.1",
 		"webpack-cli": "^3.3.12",
 		"webpack-dev-server": "^3.11.0",
