@@ -166,3 +166,48 @@
 		after(app) {},
 	},
 	```
+2. 开发环境添加source-map
+	修改weboack.dev.js
+	```
+	...
+	devtool: 'source-map',
+	...
+	```
+3. 解决es6转es5，引入babel
+	```
+	npm install babel-loader --save-dev
+	npm install '@babel/core' '@babel/plugin-syntax-dynamic-import' --save-dev
+	npm install '@babel/plugin-transform-runtime' --save-dev
+	npm install '@babel/preset-env' '@babel/register' --save-dev
+	npm install '@babel/plugin-proposal-class-properties' --save-dev
+	```
+	修改webpack.common.js
+	```js
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				loader: 'babel-loader',
+				exclude: /(node_modules)/,
+				include: [
+					resolve('src'),
+					resolve('test')
+				]
+			},
+		],
+	},
+	```
+	根目录下添加 `.babelrc` 文件
+	```json
+	{
+		"presets": ["@babel/preset-env"],
+
+		"plugins": [
+			"@babel/plugin-transform-runtime",
+			"@babel/plugin-proposal-class-properties"
+		]
+	}
+	```
+4. 引入 `less`
+	```
+	```
