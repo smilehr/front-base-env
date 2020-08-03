@@ -208,6 +208,87 @@
     ]
   }
   ```
-4. 引入 `less`
+4. 加载 `css`
   ```
+  npm install --save-dev style-loader css-loader
+  ```
+  修改webpack.common.js
+  ```js
+  rules: [
+    {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        'css-loader'
+      ],
+    },
+  ],
+  ```
+5. 加载图片
+  ```
+  npm install --save-dev file-loader url-loader
+  ```
+  修改webpack.common.js
+  ```js
+  rules: [
+    {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 1024,
+        name: path.posix.join('[name].[hash:7].[ext]'),
+        // 图片输出的实际路径(相对于dist)
+        outputPath: 'images',
+      },
+    },
+  ]
+  ```
+6. 加载字体
+  修改webpack.common.js
+  ```js
+  rules: [
+    {
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      loader: 'url-loader',
+      options: {
+        limit: 1024,
+        name: path.posix.join('[name].[hash:7].[ext]'),
+        // 图片输出的实际路径(相对于dist)
+        outputPath: 'fonts',
+      },
+    },
+  ]
+  ```
+7. 加载数据
+  ```
+  npm install --save-dev csv-loader xml-loader
+  ```
+  修改webpack.common.js
+  ```js
+  rules: [
+    {
+      test: /\.(csv|tsv)$/,
+      loader: 'csv-loader'
+    },
+    {
+      test: /\.xml$/,
+      loader: 'xml-loader'
+    },
+  ],
+  ```
+8. 加载音视频资源
+  修改webpack.common.js
+  ```js
+  rules: [
+    {
+      test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 10000,
+        name: path.posix.join('[name].[hash:7].[ext]'),
+        // 输出的实际路径(相对于dist)
+        outputPath: 'media',
+      }
+    },
+  ]
   ```
