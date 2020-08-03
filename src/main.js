@@ -1,9 +1,19 @@
-function component() {
-	var element = document.createElement('div');
+import './css/style.css';
 
-	// Lodash（目前通过一个 script 脚本引入）对于执行这一行是必需的
-	element.innerHTML = 'hello my webpack environment';
+function component() {
+	let element = document.createElement('div');
+
+	const a = new A('我是一个类!!!!!!!!!!');
+	element.innerHTML = 'hello my webpack environment' + a.info;
 	return element;
 }
 
-document.body.appendChild(component());
+class A {
+	constructor(params) {
+		this.info = params;
+	}
+}
+
+console.log(new A('我是一个类!!!!!!!!!!'));
+
+document.querySelector('#app').appendChild(component());

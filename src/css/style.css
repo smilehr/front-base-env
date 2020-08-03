@@ -1,0 +1,13 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+  text-align: center;
+  background: url('../common/images/1.jpg') no-repeat;
+  background-size: 100%;
+}
