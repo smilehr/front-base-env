@@ -139,7 +139,7 @@
   ]
   ```
   到这一步执行命令的话应该就可以跑一个初始的项目
-### 2. 配置完善
+### 2. 开发环境配置完善
 1. 开发环境添加热监测服务器 `webpack-dev-server`
   ```
   npm install webpack-dev-server --save-dev
@@ -291,4 +291,39 @@
       }
     },
   ]
+  ```
+
+### 3. 生产环境配置完善
+  修改weboack.prod.js
+  ```js
+  // 存放 prod 配置
+  const path = require("path");
+  const utils = require('./utils')
+  // 合并配置文件
+  const { merge } = require("webpack-merge");
+  const common = require("./webpack.common.js");
+
+  module.exports = merge(common, {
+    mode: "production",
+    output: {
+      path: path.join(__dirname, '..', 'dist'),
+      filename: utils.assetsPath("vendorjs/[name].[chunkhash]" + ".js"),
+      chunkFilename: utils.assetsPath("vendorjs/[id].[chunkhash]" + ".js"),
+    },
+    module: {},
+    plugins: [],
+  })
+  ```
+
+### 3. 配置分离
+1. 目录拆分，形成新的目录结构如下
+  ```
+  ├── build
+  ├── dist
+  ├── src
+  │   ├── main.js
+  ├── .gitignore
+  ├── index.html
+  ├── package.json
+  ├── README.md
   ```
