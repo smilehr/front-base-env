@@ -77,7 +77,7 @@
     }, // 入口
     output: {
       path: distResolve(''),
-      filename: 'vendorjs/[name].bundle.js',
+      filename: 'js/[name].bundle.js',
     },
     module: {
       rules: [],
@@ -294,7 +294,7 @@
   ```
 
 ### 3. 生产环境配置完善
-  修改weboack.prod.js
+  1. 修改weboack.prod.js
   ```js
   // 存放 prod 配置
   const path = require("path");
@@ -307,12 +307,38 @@
     mode: "production",
     output: {
       path: path.join(__dirname, '..', 'dist'),
-      filename: utils.assetsPath("vendorjs/[name].[chunkhash]" + ".js"),
-      chunkFilename: utils.assetsPath("vendorjs/[id].[chunkhash]" + ".js"),
+      filename: utils.assetsPath("js/[name].[chunkhash]" + ".js"),
+      chunkFilename: utils.assetsPath("js/[id].[chunkhash]" + ".js"),
     },
     module: {},
     plugins: [],
   })
+  ```
+  1. 分离 `css`
+  ```
+  npm install --save-dev mini-css-extract-plugin
+  ```
+  修改webpack.common.js, 去除css-loader,修改webpack.prod.js
+  ```js
+  module: {
+		rules: [
+			{
+				test: /\.css$/,
+				use: [
+          MiniCssExtractPlugin.loader,
+					'css-loader',
+				],
+			},
+		],
+	},
+  plugins: [
+		// extract css into its own file
+		new MiniCssExtractPlugin({
+			filename: utils.assetsPath('css/[name].[chunkhash]' + '.css'), // 分离后的文件名
+			chunkFilename: utils.assetsPath('css/[name].[chunkhash]' + '.css'), //
+			ignoreOrder: false,
+		}),
+	],
   ```
 
 ### 3. 配置分离

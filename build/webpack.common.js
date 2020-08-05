@@ -24,7 +24,7 @@ module.exports = {
   }, // 入口
   output: {
     path: distResolve(''),
-    filename: 'vendorjs/[name].bundle.js',
+    filename: 'js/[name].bundle.js',
   },
   module: {
     rules: [
@@ -33,10 +33,6 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /(node_modules)/,
         include: [resolve('src'), resolve('test')],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
