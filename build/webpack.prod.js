@@ -5,9 +5,17 @@ const utils = require('./utils');
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // 分离css代码
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// 压缩css
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+//压缩js
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+// dllplugins
+// const manifest = require('../manifest.json');
+
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = merge(commonConfig, {
 	mode: 'production',
@@ -21,7 +29,12 @@ module.exports = merge(commonConfig, {
 			{
 				test: /\.css$/,
 				use: [
-          MiniCssExtractPlugin.loader,
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							publicPath: '../'
+						}
+					},
 					'css-loader',
 				],
 			},
@@ -34,5 +47,34 @@ module.exports = merge(commonConfig, {
 			chunkFilename: utils.assetsPath('css/[name].[chunkhash]' + '.css'), //
 			ignoreOrder: false,
 		}),
+		// new BundleAnalyzerPlugin({  
+		// 	analyzerPort: 18080,  
+		// 	generateStatsFile: false
+		// })
 	],
+	optimization: {
+		minimizer: [
+			// 压缩css
+			new OptimizeCSSAssetsPlugin(),
+
+			// 压缩js
+			new UglifyJsPlugin({  
+				uglifyOptions: {    
+					warnings: false,    
+					compress: {      
+						drop_debugger: false,      
+						drop_console: true, //console      
+						pure_funcs: ['console.log'] // 移除console    
+					},    
+					output:{      
+						// 去掉注释内容      
+						comments: false    
+						}  
+				},  
+				sourceMap: false,  
+				cache: true,  
+				parallel: true
+			}),
+		],
+	},
 });

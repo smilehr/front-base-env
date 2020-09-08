@@ -81,6 +81,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, '..', 'index.html'),
       chunks: ['app'],
-    }),
+      inject: true,
+      // favicon: resolve('favicon.ico'),
+      title:'标题',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      }
+    })
   ], // 插件
 };

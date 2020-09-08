@@ -25,7 +25,7 @@ module.exports = merge(commonConfig, {
       poll: false,
     },
     after(app) {
-      console.log(prodConfig);
+      // console.log(prodConfig);
     },
   },
 });
