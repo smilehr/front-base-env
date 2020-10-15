@@ -347,7 +347,7 @@
 	],
   ```
 
-### 3. 配置打包性能优化
+### 4. 配置打包性能优化
 ```
 // 在optimization.minimizer中引用
 ```
@@ -556,7 +556,7 @@
   ]
   ```
 
-### 4. 配置分离
+### 5. 配置分离
 1. 目录拆分，形成新的目录结构如下
   ```
   ├── build
@@ -584,3 +584,26 @@
     return path.posix.join( _path);
   }
   ```
+
+### 6. 添加eslint
+1. 安装依赖
+  ```js
+  npm install eslint-loader eslint --save-dev
+  ```
+2. 删除`webpack.common.js`里`module`中js，并在`webpack.prod.js`中新增
+3. 修改webpack.dev.js
+  ```js
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: ['babel-loader', 'eslint-loader'],
+        exclude: /(node_modules)/,
+        include: [resolve('src'), resolve('test')],
+      },
+      ...
+    ],
+  },
+  ```
+
+### 7. 添加prettier
