@@ -12,6 +12,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 //压缩js
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+function resolve(dir) {
+  return path.join(__dirname, '..', dir);
+}
+
 // dllplugins
 // const manifest = require('../manifest.json');
 
@@ -25,7 +29,13 @@ module.exports = merge(commonConfig, {
 		chunkFilename: utils.assetsPath('js/[id].[chunkhash]' + '.js'),
 	},
 	module: {
-		rules: [
+		rules: [			
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /(node_modules)/,
+        include: [resolve('src'), resolve('test')],
+      },
 			{
 				test: /\.css$/,
 				use: [

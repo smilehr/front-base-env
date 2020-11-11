@@ -607,3 +607,38 @@
   ```
 
 ### 7. 添加prettier
+1. 安装依赖
+  ```js
+  npm install prettier --save-dev
+  ```
+2. 项目根目录下添加.prettire.js
+  ```
+  {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
+  }
+  ```
+3. 添加husky，git提交前自动格式化文档
+  ```js
+  npm install husky lint-staged prettier -D
+  ```
+  package.json新增
+  ```json
+  {
+    ...
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "src/**": [
+        "prettier --config .prettierrc --write",
+        "git add"
+      ]
+    }
+  }
+  ```
