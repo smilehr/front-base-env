@@ -19,9 +19,10 @@ function distResolve(file) {
 }
 
 module.exports = {
+  // 入口
   entry: {
     app: srcResolve('main.js'),
-  }, // 入口
+  },
   output: {
     path: distResolve(''),
     filename: 'js/[name].bundle.js',

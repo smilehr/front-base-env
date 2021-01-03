@@ -1,6 +1,6 @@
 // 存放 prod 配置
 const path = require('path');
-const utils = require('./utils');
+const utils = require('../config/utils');
 // 合并配置文件
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');

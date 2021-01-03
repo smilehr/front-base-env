@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --config build/webpack.prod.js --mode production",
-    "serve": "webpack-dev-server --inline --progress --config build/webpack.dev.js"
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.js"
   },
   "repository": {
     "type": "git",
@@ -35,10 +35,12 @@
     "eslint": "^7.11.0",
     "eslint-loader": "^4.0.2",
     "file-loader": "^6.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^4.3.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1",
     "mini-css-extract-plugin": "^0.9.0",
+    "node-notifier": "^8.0.0",
     "prettier": "^2.1.2",
     "style-loader": "^1.2.1",
     "url-loader": "^4.1.0",
