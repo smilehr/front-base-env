@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const vueLoaderConfig = require('../config/vue-loader.conf');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
@@ -27,8 +29,23 @@ module.exports = {
     path: distResolve(''),
     filename: 'js/[name].bundle.js',
   },
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      '@': resolve('src'),
+      'components': resolve('src/components'),
+      'config': resolve('src/config'),
+      'api': resolve('src/api'),
+      'page': resolve('src/page')
+    }
+  },
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        // options: vueLoaderConfig
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
@@ -84,6 +101,7 @@ module.exports = {
         collapseWhitespace: true,
         removeAttributeQuotes: true
       }
-    })
+    }),
+    new VueLoaderPlugin()
   ], // 插件
 };
